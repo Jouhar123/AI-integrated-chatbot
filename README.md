@@ -43,7 +43,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 4. run npm run dev 
 
 ## .env
-## for grmini
+## for gemini
 GEMINI_API_KEY="Enter your gen ai token"
 # for open Ai
 
