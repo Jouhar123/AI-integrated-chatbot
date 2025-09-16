@@ -8,7 +8,6 @@ export async function POST(req: Request) {
   try {
     const { message } = await req.json();
 
-    // Use a Gemini model (free tier supports gemini-1.5-flash and others)
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const result = await model.generateContent(message);

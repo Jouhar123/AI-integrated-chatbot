@@ -29,52 +29,52 @@ export default function Home() {
     setLoading(false);
   };
 
-  // Streaming chat
-  const handleStreamChat = async () => {
-    setLoading(true);
-    setStreamingResponse("");
+  // // Streaming chat
+  // const handleStreamChat = async () => {
+  //   setLoading(true);
+  //   setStreamingResponse("");
 
-    try {
-      const res = await fetch("/api/chat-stream", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
-      });
+  //   try {
+  //     const res = await fetch("/api/chat-stream", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ message }),
+  //     });
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
+  //     const reader = res.body.getReader();
+  //     const decoder = new TextDecoder();
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+  //     while (true) {
+  //       const { done, value } = await reader.read();
+  //       if (done) break;
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n");
+  //       const chunk = decoder.decode(value);
+  //       const lines = chunk.split("\n");
 
-        for (const line of lines) {
-          if (line.startsWith("data:")) {
-            try {
-              const data = JSON.parse(line.slice(5));
-              if (data.content) {
-                setStreamingResponse((prev) => prev + data.content);
-              }
-            } catch {
-              // ignore malformed chunks
-            }
-          }
-        }
-      }
-    } catch (error) {
-      setStreamingResponse("Error: " + error.message);
-    }
+  //       for (const line of lines) {
+  //         if (line.startsWith("data:")) {
+  //           try {
+  //             const data = JSON.parse(line.slice(5));
+  //             if (data.content) {
+  //               setStreamingResponse((prev) => prev + data.content);
+  //             }
+  //           } catch {
+  //             // ignore malformed chunks
+  //           }
+  //         }
+  //       }
+  //     }
+  //   } catch (error) {
+  //     setStreamingResponse("Error: " + error.message);
+  //   }
 
-    setLoading(false);
-  };
+  //   setLoading(false);
+  // };
 
   return (
     <main style={styles.container}>
       <div style={styles.card}>
-        <h1 style={styles.title}>🚀 AI Integrated Project</h1>
+        <h1 style={styles.title}>AI Chat</h1>
 
         {/* Input */}
         <textarea
@@ -95,13 +95,13 @@ export default function Home() {
             {loading ? "Loading..." : "Chat"}
           </button>
 
-          <button
+          {/* <button
             onClick={handleStreamChat}
             disabled={loading}
             style={{ ...styles.button, backgroundColor: "#16a34a" }}
           >
             {loading ? "Loading..." : "Stream Chat"}
-          </button>
+          </button> */}
         </div>
 
         {/* Normal Response */}
@@ -111,10 +111,10 @@ export default function Home() {
         </div>
 
         {/* Streaming Response */}
-        <div style={styles.responseBox}>
+        {/* <div style={styles.responseBox}>
           <h2 style={styles.responseTitle}>⚡ Streaming Response</h2>
           <div>{streamingResponse}</div>
-        </div>
+        </div> */}
       </div>
     </main>
   );

@@ -1,47 +1,47 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+// import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-export async function POST(req: Request) {
-  try {
-    const { message } = await req.json();
+// export async function POST(req: Request) {
+//   try {
+//     const { message } = await req.json();
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContentStream(message);
+//     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+//     const result = await model.generateContentStream(message);
 
-    const encoder = new TextEncoder();
+//     const encoder = new TextEncoder();
 
-    const readable = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const chunk of result.stream) {
-            const content = chunk.text();
-            if (content) {
-              controller.enqueue(
-                encoder.encode(`data:${JSON.stringify({ content })}\n\n`)
-              );
-            }
-          }
-        } catch (err) {
-          controller.error(err);
-        } finally {
-          controller.close();
-        }
-      },
-    });
+//     const readable = new ReadableStream({
+//       async start(controller) {
+//         try {
+//           for await (const chunk of result.stream) {
+//             const content = chunk.text();
+//             if (content) {
+//               controller.enqueue(
+//                 encoder.encode(`data:${JSON.stringify({ content })}\n\n`)
+//               );
+//             }
+//           }
+//         } catch (err) {
+//           controller.error(err);
+//         } finally {
+//           controller.close();
+//         }
+//       },
+//     });
 
-    return new Response(readable, {
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    return new Response("Error", { status: 500 });
-  }
-}
+//     return new Response(readable, {
+//       headers: {
+//         "Content-Type": "text/event-stream",
+//         "Cache-Control": "no-cache",
+//         Connection: "keep-alive",
+//       },
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return new Response("Error", { status: 500 });
+//   }
+// }
 
 // open Ai Stream code
 
